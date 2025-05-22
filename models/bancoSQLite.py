@@ -15,7 +15,7 @@ def inicializar_banco():
     cursor.execute('''
                     CREATE TABLE IF NOT EXISTS ATIVIDADES (
                     id_ATIVIDADE INTEGER PRIMARY KEY AUTOINCREMENT,             
-                    id_turma INTEGER AUTOINCREMENT,
+                    id_turma INTEGER,
                     nome_atividade TEXT,
                     nota DECIMAL
                    )
@@ -43,7 +43,3 @@ class BancoSQLite:
     def conectar_banco(self):
         return sqlite3.connect(bd)
     
-        
-
-
-

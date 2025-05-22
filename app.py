@@ -1,6 +1,14 @@
 from config import create_app
 from controllers.atividade_controller import atividade_bp
 
+
+app = create_app()
+app.register_blueprint(atividade_bp, url_prefix='/atividade')
+
+from models.bancoSQLite import inicializar_banco
+
+inicializar_banco()
+
 app = create_app()
 app.register_blueprint(atividade_bp, url_prefix='/atividades')
 
