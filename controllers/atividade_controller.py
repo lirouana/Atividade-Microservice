@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from models import atividade_model
 from clients.pessoa_service_client import PessoaServiceClient
 
