@@ -27,3 +27,18 @@ def obter_atividade_para_professor(id_atividade, id_professor):
         return jsonify(atividade)
     except atividade_model.AtividadeNotFound:
         return jsonify({'erro': 'Atividade não encontrada'}), 404
+    
+@atividade_bp.route('/atividade', methods = ['POST'])
+def criar_atividade():
+    try:
+        dados = request.json
+        nova_atividade = atividade_model.post_atividade(
+            id_disciplina = dados['id_disciplina'],
+            enunciado = dados['enunciado'],
+            respostas = dados.get('respostas', [])
+        )
+        return jsonify(nova_atividade), 201
+    except KeyError as e:
+        return jsonify({'erro': f'Campo obrigatório ausente: {str(e)}'}), 400
+    except Exception as e:
+        return jsonify({'erro': str(e)}), 500
