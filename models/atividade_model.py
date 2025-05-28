@@ -30,3 +30,17 @@ def obter_atividade(id_atividade):
         if atividade['id_atividade'] == id_atividade:
             return atividade
     raise AtividadeNotFound
+
+def criar_atividade(id_disciplina, enunciado, respostas=None):
+    if respostas is None:
+        respostas = []
+
+    nova_atividade = {
+        'id_atividade': len(atividades) + 1,
+        'id_disciplina': id_disciplina,
+        'enunciado': enunciado,
+        'respostas': respostas
+    }
+
+    atividades.append(nova_atividade)
+    return nova_atividade
