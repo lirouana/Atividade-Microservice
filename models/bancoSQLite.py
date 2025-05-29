@@ -1,8 +1,35 @@
 import sqlite3
 import sys
 import os
+import requests
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from config import banco_de_dados as bd
+
+
+def importar_professores_da_api():
+    url = "http://localhost:5000/api/professores"
+    
+    try:
+        resposta = requests.get(url)
+        resposta.raise_for_status()
+        professores = resposta.json()
+
+        conexao = sqlite3.connect(bd)
+        cursor = conexao.cursor()
+
+        for prof in professores:
+            cursor.execute(
+                "INSERT OR IGNORE INTO professores (id, nome, disciplina) VALUES (?, ?, ?)",
+                (prof["id"], prof["nome"], prof["disciplina"])
+            )
+        
+        conexao.commit()
+        conexao.close()
+        print("Professores importados com sucesso!")
+    
+    except requests.exceptions.RequestException as e:
+        print(f"Erro ao buscar dados da API: {e}")
+
 
 def inicializar_banco():
     conexao = sqlite3.connect(bd)
@@ -10,12 +37,20 @@ def inicializar_banco():
     cursor = conexao.cursor() 
     print("Conexão com o banco de dados estabelecida.")
    
-   
+    
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS professores (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            disciplina TEXT NOT NULL
+        )
+    ''')
+
     
     cursor.execute('''
                     CREATE TABLE IF NOT EXISTS ATIVIDADES (
-                    id_ATIVIDADE INTEGER PRIMARY KEY AUTOINCREMENT,             
-                    id_turma INTEGER,
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,             
+                    id_professor INTEGER,
                     nome_atividade TEXT,
                     nota DECIMAL
                    )
