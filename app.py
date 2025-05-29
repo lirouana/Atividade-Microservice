@@ -5,7 +5,7 @@ from models.bancoSQLite import inicializar_banco
 
 
 app = create_app()
-app.register_blueprint(atividade_bp, url_prefix='/atividades')
+app.register_blueprint(atividade_bp)
 
 
 inicializar_banco()
