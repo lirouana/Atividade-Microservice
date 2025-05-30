@@ -5,7 +5,7 @@ from clients.pessoa_service_client import PessoaServiceClient
 
 atividade_bp = Blueprint('atividade_bp', __name__)
 
-API_ESCOLAR_URL = "http://localhost:5000/api/professores"
+API_ESCOLAR_URL = "https://new-api-flask2.onrender.com/api/professores"
 
 def validar_professor(id_professor):
     try:
